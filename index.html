@@ -168,31 +168,31 @@
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-slate-700 font-bold mb-0.5">Nama Pelaksana</label>
-              <input type="text" id="employeeName" value="Dandy Rimanto" class="w-full p-1.5 border border-slate-300 rounded font-medium focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
+              <input type="text" id="employeeName" placeholder="Contoh: Nama Lengkap" class="w-full p-1.5 border border-slate-300 rounded font-medium focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
             </div>
             <div>
               <label class="block text-slate-700 font-bold mb-0.5">Departemen / Divisi</label>
-              <input type="text" id="employeeRoleDept" value="Accounts Receivable" class="w-full p-1.5 border border-slate-300 rounded font-medium focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
+              <input type="text" id="employeeRoleDept" placeholder="Contoh: Accounts Receivable" class="w-full p-1.5 border border-slate-300 rounded font-medium focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
             </div>
             <div>
               <label class="block text-slate-700 font-bold mb-0.5">Kota / Wilayah Tujuan</label>
-              <input type="text" id="destCity" value="Bogor, Cianjur, Sukabumi" class="w-full p-1.5 border border-slate-300 rounded font-medium focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
+              <input type="text" id="destCity" placeholder="Contoh: Semarang & Solo" class="w-full p-1.5 border border-slate-300 rounded font-medium focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
             </div>
             <div>
               <label class="block text-slate-700 font-bold mb-0.5">Nomor Referensi CA</label>
-              <input type="text" id="docNumber" value="CA/SAL-AR/2026/XI-001" class="w-full p-1.5 border border-slate-300 rounded font-mono font-bold focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
+              <input type="text" id="docNumber" placeholder="Contoh: CA/SAL-AR/2026/XI-001" class="w-full p-1.5 border border-slate-300 rounded font-mono font-bold focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
             </div>
             <div>
               <label class="block text-slate-700 font-bold mb-0.5">Tgl Berangkat</label>
-              <input type="date" id="startDate" value="2026-10-26" class="w-full p-1.5 border border-slate-300 rounded font-medium outline-none" onchange="saveAndRender()">
+              <input type="date" id="startDate" class="w-full p-1.5 border border-slate-300 rounded font-medium outline-none" onchange="saveAndRender()">
             </div>
             <div>
               <label class="block text-slate-700 font-bold mb-0.5">Tgl Kembali</label>
-              <input type="date" id="endDate" value="2026-10-29" class="w-full p-1.5 border border-slate-300 rounded font-medium outline-none" onchange="saveAndRender()">
+              <input type="date" id="endDate" class="w-full p-1.5 border border-slate-300 rounded font-medium outline-none" onchange="saveAndRender()">
             </div>
             <div class="col-span-2">
               <label class="block text-slate-700 font-bold mb-0.5">Agenda / Keperluan Dinas</label>
-              <input type="text" id="tripPurpose" value="Kunjungan kios & rekonsiliasi faktur wilayah Bocimi" class="w-full p-1.5 border border-slate-300 rounded font-medium outline-none" oninput="saveAndRender()">
+              <input type="text" id="tripPurpose" placeholder="Contoh: Kunjungan kios & penagihan faktur regional..." class="w-full p-1.5 border border-slate-300 rounded font-medium outline-none" oninput="saveAndRender()">
             </div>
           </div>
         </div>
@@ -355,31 +355,24 @@
     const CATEGORIES = ["Uang Makan", "Hotel & Penginapan", "BBM & Transportasi", "Tol & Parkir", "Operasional Kios", "Lain-lain"];
 
     let printMode = "daily";
+    const todayStr = new Date().toISOString().split("T")[0];
 
+    // Data Awal Bersih / Kosong
     let appData = {
       companyName: "PT SANTANI AGRO LESTARI",
-      employeeName: "Dandy Rimanto",
-      employeeRoleDept: "Accounts Receivable",
-      destCity: "Bogor, Cianjur, Sukabumi",
-      docNumber: "CA/SAL-AR/2026/XI-001",
-      startDate: "2026-10-26",
-      endDate: "2026-10-29",
-      tripPurpose: "Kunjungan kios & rekonsiliasi faktur wilayah Bocimi",
+      employeeName: "",
+      employeeRoleDept: "",
+      destCity: "",
+      docNumber: "",
+      startDate: todayStr,
+      endDate: todayStr,
+      tripPurpose: "",
       incomes: [
-        { date: "2026-10-26", desc: "Cash Advance Awal Dinas Lapangan", amount: 5500000 },
-        { date: "2026-10-28", desc: "Top-up Kebutuhan Operasional & BBM", amount: 750000 }
+        { date: todayStr, desc: "Cash Advance Awal", amount: 0 }
       ],
-      expenses: [
-        { date: "2026-10-26", cat: "Hotel & Penginapan", desc: "Hotel Grand Amira (Malam 1)", amount: 450000, hasReceipt: true },
-        { date: "2026-10-26", cat: "BBM & Transportasi", desc: "BBM Operasional Wilayah Bogor", amount: 350000, hasReceipt: true },
-        { date: "2026-10-26", cat: "Uang Makan", desc: "Makan Siang & Malam Tim", amount: 140000, hasReceipt: true },
-        { date: "2026-10-27", cat: "Tol & Parkir", desc: "Tol Bocimi & Parkir Kios", amount: 185000, hasReceipt: true },
-        { date: "2026-10-27", cat: "Operasional Kios", desc: "Air Mineral & Jamuan Diskusi Toko", amount: 85000, hasReceipt: false },
-        { date: "2026-10-28", cat: "Hotel & Penginapan", desc: "Penginapan Cianjur (Malam 2)", amount: 420000, hasReceipt: true },
-        { date: "2026-10-29", cat: "BBM & Transportasi", desc: "BBM Operasional Pulang", amount: 380000, hasReceipt: true }
-      ],
+      expenses: [],
       signers: [
-        { role: "Dibuat Oleh,", name: "Dandy Rimanto", title: "AR Supervisor" },
+        { role: "Dibuat Oleh,", name: "", title: "Pelaksana Dinas" },
         { role: "Diperiksa Oleh,", name: "Finance Dept.", title: "Finance Staff" },
         { role: "Disetujui Oleh,", name: "Management SAL", title: "Finance Manager" }
       ]
@@ -513,24 +506,54 @@
       saveAndRender();
     }
 
+    // Tombol Contoh Data (Data Dandy dipindahkan ke sini)
     function populateExampleData() {
-      appData.expenses = [
-        { date: "2026-10-26", cat: "Hotel & Penginapan", desc: "Hotel Grand Amira (Malam 1)", amount: 450000, hasReceipt: true },
-        { date: "2026-10-26", cat: "BBM & Transportasi", desc: "BBM Operasional Wilayah Bogor", amount: 350000, hasReceipt: true },
-        { date: "2026-10-26", cat: "Uang Makan", desc: "Makan Siang & Malam Tim", amount: 140000, hasReceipt: true },
-        { date: "2026-10-27", cat: "Tol & Parkir", desc: "Tol Bocimi & Parkir Kios", amount: 185000, hasReceipt: true },
-        { date: "2026-10-27", cat: "Operasional Kios", desc: "Air Mineral Dus & Jamuan Diskusi Toko", amount: 85000, hasReceipt: false },
-        { date: "2026-10-28", cat: "Hotel & Penginapan", desc: "Penginapan Cianjur (Malam 2)", amount: 420000, hasReceipt: true },
-        { date: "2026-10-29", cat: "BBM & Transportasi", desc: "BBM Operasional Tol Pulang", amount: 380000, hasReceipt: true }
-      ];
+      appData = {
+        companyName: "PT SANTANI AGRO LESTARI",
+        employeeName: "Dandy Rimanto",
+        employeeRoleDept: "Accounts Receivable",
+        destCity: "Bogor, Cianjur, Sukabumi",
+        docNumber: "CA/SAL-AR/2026/XI-001",
+        startDate: "2026-10-26",
+        endDate: "2026-10-29",
+        tripPurpose: "Kunjungan kios & rekonsiliasi faktur wilayah Bocimi",
+        incomes: [
+          { date: "2026-10-26", desc: "Cash Advance Awal Dinas Lapangan", amount: 5500000 },
+          { date: "2026-10-28", desc: "Top-up Kebutuhan Operasional & BBM", amount: 750000 }
+        ],
+        expenses: [
+          { date: "2026-10-26", cat: "Hotel & Penginapan", desc: "Hotel Grand Amira (Malam 1)", amount: 450000, hasReceipt: true },
+          { date: "2026-10-26", cat: "BBM & Transportasi", desc: "BBM Operasional Wilayah Bogor", amount: 350000, hasReceipt: true },
+          { date: "2026-10-26", cat: "Uang Makan", desc: "Makan Siang & Malam Tim", amount: 140000, hasReceipt: true },
+          { date: "2026-10-27", cat: "Tol & Parkir", desc: "Tol Bocimi & Parkir Kios", amount: 185000, hasReceipt: true },
+          { date: "2026-10-27", cat: "Operasional Kios", desc: "Air Mineral Dus & Jamuan Diskusi Toko", amount: 85000, hasReceipt: false },
+          { date: "2026-10-28", cat: "Hotel & Penginapan", desc: "Penginapan Cianjur (Malam 2)", amount: 420000, hasReceipt: true },
+          { date: "2026-10-29", cat: "BBM & Transportasi", desc: "BBM Operasional Tol Pulang", amount: 380000, hasReceipt: true }
+        ],
+        signers: [
+          { role: "Dibuat Oleh,", name: "Dandy Rimanto", title: "AR Supervisor" },
+          { role: "Diperiksa Oleh,", name: "Finance Dept.", title: "Finance Staff" },
+          { role: "Disetujui Oleh,", name: "Management SAL", title: "Finance Manager" }
+        ]
+      };
+      syncInputsFromData();
       renderForms();
       saveAndRender();
     }
 
     function resetFormToBlank() {
       if (confirm("Kosongkan semua data untuk perjalanan dinas baru?")) {
-        appData.incomes = [{ date: new Date().toISOString().split("T")[0], desc: "Cash Advance Awal", amount: 0 }];
+        const curDate = new Date().toISOString().split("T")[0];
+        appData.employeeName = "";
+        appData.employeeRoleDept = "";
+        appData.destCity = "";
+        appData.docNumber = "";
+        appData.startDate = curDate;
+        appData.endDate = curDate;
+        appData.tripPurpose = "";
+        appData.incomes = [{ date: curDate, desc: "Cash Advance Awal", amount: 0 }];
         appData.expenses = [];
+        syncInputsFromData();
         renderForms();
         saveAndRender();
       }
