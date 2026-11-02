@@ -166,6 +166,10 @@
           </div>
           
           <div class="grid grid-cols-2 gap-2">
+            <div class="col-span-2">
+              <label class="block text-slate-700 font-bold mb-0.5">Nama Perusahaan / Entitas</label>
+              <input type="text" id="companyName" placeholder="Contoh: PT SANTANI AGRO LESTARI" class="w-full p-1.5 border border-slate-300 rounded font-bold uppercase text-emerald-900 focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
+            </div>
             <div>
               <label class="block text-slate-700 font-bold mb-0.5">Nama Pelaksana</label>
               <input type="text" id="employeeName" placeholder="Contoh: Nama Lengkap" class="w-full p-1.5 border border-slate-300 rounded font-medium focus:ring-1 focus:ring-emerald-600 outline-none" oninput="saveAndRender()">
@@ -257,7 +261,7 @@
           <!-- KOP SURAT FORMAL TEGAS -->
           <div class="border-b-2 border-black pb-2 mb-2 flex justify-between items-end">
             <div>
-              <h1 class="text-base md:text-lg font-black tracking-wider text-black uppercase leading-tight">PT SANTANI AGRO LESTARI</h1>
+              <h1 id="viewCompanyName" class="text-base md:text-lg font-black tracking-wider text-black uppercase leading-tight">PT SANTANI AGRO LESTARI</h1>
               <p class="text-[9.5pt] font-extrabold text-slate-800 uppercase tracking-wide mt-0.5">FORMULIR PERTANGGUNGJAWABAN CASH ADVANCE DINAS</p>
             </div>
             <div class="text-right">
@@ -412,6 +416,7 @@
     }
 
     function saveAndRender() {
+      appData.companyName = document.getElementById("companyName").value;
       appData.employeeName = document.getElementById("employeeName").value;
       appData.employeeRoleDept = document.getElementById("employeeRoleDept").value;
       appData.destCity = document.getElementById("destCity").value;
@@ -544,6 +549,7 @@
     function resetFormToBlank() {
       if (confirm("Kosongkan semua data untuk perjalanan dinas baru?")) {
         const curDate = new Date().toISOString().split("T")[0];
+        appData.companyName = "PT SANTANI AGRO LESTARI";
         appData.employeeName = "";
         appData.employeeRoleDept = "";
         appData.destCity = "";
@@ -561,6 +567,7 @@
 
     // MAIN RENDER A4 SHEET
     function renderView() {
+      setElText("viewCompanyName", (appData.companyName || "PT SANTANI AGRO LESTARI").toUpperCase());
       setElText("viewDocNumber", appData.docNumber || "-");
       setElText("viewEmployeeName", appData.employeeName || "-");
       setElText("viewRoleDept", appData.employeeRoleDept || "-");
@@ -808,7 +815,8 @@
         ? `Kurang Bayar: ${formatRp(Math.abs(diff))} (Klaim Reimburse)` 
         : `Sisa Saldo: Nihil (Rp 0,00)`;
 
-      const text = `*RINGKASAN CASH ADVANCE DINAS - PT SANTANI AGRO LESTARI*
+      const compTitle = (appData.companyName || "PT SANTANI AGRO LESTARI").toUpperCase();
+      const text = `*RINGKASAN CASH ADVANCE DINAS - ${compTitle}*
 Pelaksana: ${appData.employeeName} (${appData.employeeRoleDept})
 Tujuan: ${appData.destCity}
 No. CA: ${appData.docNumber}
@@ -897,6 +905,7 @@ _Laporan lembar cetak A4 dan fisik nota terlampir._`;
     }
 
     function syncInputsFromData() {
+      document.getElementById("companyName").value = appData.companyName || "PT SANTANI AGRO LESTARI";
       document.getElementById("employeeName").value = appData.employeeName || "";
       document.getElementById("employeeRoleDept").value = appData.employeeRoleDept || "";
       document.getElementById("destCity").value = appData.destCity || "";
